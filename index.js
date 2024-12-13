@@ -1,4 +1,5 @@
 const usernames = ['json.weee', 'Reem Belafkih', 'Finka'];
+const postsContainer = document.getElementById('posts-container');
 const userIds = [1, 2, 3];
 
 
@@ -9,6 +10,29 @@ const userImages = [
   'reem.png',
   'jason.png'  
 ];
+
+fetch('https://jsonplaceholder.typicode.com/posts')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Failed to fetch posts');
+    }
+    return response.json();
+  })
+  .then(posts => {
+    posts.slice(0, 12).forEach(post => { 
+      const postHTML = ` 
+
+        <div class="post">
+          <h3>${post.title}</h3>
+          <p>${post.body}</p>
+        </div>
+      `; 
+
+      postsContainer.innerHTML += postHTML;
+    });
+
+  })
+  .catch(error => console.error('Error:', error));
 
 
 userIds.forEach((userId, index) => {
